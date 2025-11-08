@@ -6,7 +6,7 @@ from flask_login import LoginManager, login_user, login_required, logout_user, c
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt
 from datetime import timedelta
-from functools import wrapsp
+from functools import wraps
 
 # Importamos vistas REST
 from views import PostAPI, ComentarioAPI, CategoriaAPI, UserAPI
