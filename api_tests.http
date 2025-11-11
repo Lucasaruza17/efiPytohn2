@@ -1,0 +1,149 @@
+# Variables de entorno
+@baseUrl = http://127.0.0.1:5000
+@admin_token = 
+@user_token = 
+
+
+# 1. AUTENTICACIÓN Y CREACIÓN DE USUARIOS
+
+#Registro de administrador
+# @name registerAdmin
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+    "username": "admin_user",
+    "email": "admin@mail.com",
+    "password": "admin123"
+}
+
+# Registro de moderador
+# @name registerMod
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+    "username": "mod_user",
+    "email": "mod@mail.com",
+    "password": "mod123"
+}
+
+# Registro de usuario
+# @name registerUser
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+    "username": "user_user",
+    "email": "user@mail.com",
+    "password": "user123"
+}
+
+# 
+#Caso de error: Usuario ya existe
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+    "username": "user_user",
+    "email": "user@mail.com",
+    "password": "user123"
+}
+
+
+# 2. INICIO DE SESIÓN (OBTENER TOKENS)
+#Login Admin
+# (Copia el access_token de la respuesta y pégalo en @admin_token arriba)
+# @name loginAdmin
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+    "email": "admin@mail.com",
+    "password": "admin123"
+}
+
+# Login Usuario
+# (Copia el access_token de la respuesta y pégalo en @user_token arriba)
+# @name loginUser
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+    "email": "user@mail.com",
+    "password": "user123"
+}
+
+#
+#Caso error: Contraseña incorrecta
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+    "email": "user@mail.com",
+    "password": "password_incorrecto"
+}
+
+
+# 3.ENDPOINTS DE POSTS
+
+
+#Crear un post (requiere @user_token)
+# @name createPost
+POST {{baseUrl}}/api/posts
+Authorization: Bearer {{user_token}}
+Content-Type: application/json
+
+{
+    "titulo": "Mi primer post",
+    "contenido": "Este es el contenido de mi post."
+}
+
+# Ver todos los posts (publico)
+GET {{baseUrl}}/api/posts
+
+#Editar un post (requiere @user_token del autor)
+# Asume que el post creado tiene id=1
+PUT {{baseUrl}}/api/posts/1
+Authorization: Bearer {{user_token}}
+Content-Type: application/json
+
+{
+    "titulo": "Título actualizado",
+    "contenido": "Contenido actualizado por el autor."
+}
+
+
+#4. ENDPOINTS DE ADMIN (PRUEBA DE ROLES)
+
+
+#Ver estadisticas (requiere @admin_token)
+# @name getStatsAdmin
+GET {{baseUrl}}/api/stats
+Authorization: Bearer {{admin_token}}
+
+
+#caso de error: usuario normal intentando ver estadisticas
+# (Deberia devolver 403 )
+# @name getStatsUserFail
+GET {{baseUrl}}/api/stats
+Authorization: Bearer {{user_token}}
+
+#Ver todos los Usuarios (requiere @admin_token)
+GET {{baseUrl}}/api/users
+Authorization: Bearer {{admin_token}}
+
+#Cambiar rol de un usuario (requiere @admin_token)
+#asume que el usuario 'mod@mail.com' tiene ID 2
+PATCH {{baseUrl}}/api/users/2/role
+Authorization: Bearer {{admin_token}}
+Content-Type: application/json
+
+{
+    "role": "moderator"
+}
+
+#desactivar un usuario (requiere @admin_token)
+#asume que el usuario 'user@mail.com' tiene ID 3
+DELETE {{baseUrl}}/api/users/3
+Authorization: Bearer {{admin_token}}

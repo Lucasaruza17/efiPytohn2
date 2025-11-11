@@ -1,8 +1,10 @@
 from flask import request, jsonify
-from flask_jwt_extended import create_access_token
-from repositories import UserRepository
+from flask_jwt_extended import create_access_token, get_jwt
+from repositories import UserRepository, PostRepository, ComentarioRepository
 from services import UserService
 from . import PostAPI, ComentarioAPI, CategoriaAPI, UserAPI
+from decorators import roles_required
+
 
 #uso una funcion/def que haga q reciba app como argumento
 def register_api_routes(app):
@@ -38,6 +40,31 @@ def register_api_routes(app):
         })
         return jsonify({"access_token": access_token}), 200
 
+    @app.route("/api/stats", methods=["GET"])
+    @roles_required("moderator", "admin")
+    def get_stats():
+        claims = get_jwt()
+        current_user_role = claims.get("role")
+
+        # repositorios
+        post_repo = PostRepository()
+        user_repo = UserRepository()
+        comment_repo = ComentarioRepository()
+
+        #stats basicas
+        stats = {
+            "total_posts": len(post_repo.get_all()),
+            "total_comments": len(comment_repo.get_all()),
+            "total_users": len(user_repo.get_all())
+        }
+        
+        # stats solo para Admin
+        if current_user_role == 'admin':
+            stats["posts_last_week"] = post_repo.count_posts_last_week()
+            
+        return jsonify(stats), 200
+
+
     #esto aca trae todo lo .add_url_rule aquí, usando app
     post_view = PostAPI.as_view("posts_api")
     app.add_url_rule("/api/posts", defaults={"post_id": None}, view_func=post_view, methods=["GET","POST"])
@@ -51,6 +78,7 @@ def register_api_routes(app):
     # Categoria
     categoria_view = CategoriaAPI.as_view("categorias_api")
     app.add_url_rule("/api/categories", defaults={"categoria_id": None}, view_func=categoria_view, methods=["GET","POST"])
+    # (Tu 'DELETE' ya estaba aquí, lo cual es perfecto)
     app.add_url_rule("/api/categories/<int:categoria_id>", view_func=categoria_view, methods=["GET","PUT","DELETE"])
 
     # Usuarios/Admin

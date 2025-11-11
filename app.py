@@ -10,7 +10,7 @@ from views.api_routes import register_api_routes
 app = Flask(__name__)
 app.secret_key = "clavesecretaxd"
 
-# Configuración DB
+# Configuración db
 app.config["SQLALCHEMY_DATABASE_URI"] = "mysql+pymysql://root:@localhost/efipythonMyL"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
