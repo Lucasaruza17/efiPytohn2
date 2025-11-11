@@ -222,9 +222,9 @@ Tecnologías utilizadas
 Para crear estos usuarios:
 
 1.  **Regístralos** usando `POST /api/register` (con Thunder Client).
-    * `{"username": "admin_user", "email": "admin@mail.com", "password": "admin123"}`
-    * `{"username": "mod_user", "email": "mod@mail.com", "password": "mod123"}`
-    * `{"username": "user_user", "email": "user@mail.com", "password": "user123"}`
+    * `{"username": "admin_user", "email": "admin@mail.com", "password": "admin1234"}`
+    * `{"username": "mod_user", "email": "mod@mail.com", "password": "mod1234"}`
+    * `{"username": "user_user", "email": "user@mail.com", "password": "user1234"}`
 
 2.  **Asigna los roles en MySQL:**
     Por defecto, todos se crearán como "user". Conéctate a tu base de datos y ejecuta los siguientes comandos SQL para actualizar sus roles:
