@@ -6,33 +6,6 @@ Repositorio para la **Evaluación Final Integradora (EFI)** de la materia **Prog
 
 ## Resumen de funcionalidades
 
--   ✅ **Arquitectura limpia** (Services + Repositories)
--   ✅ **Autenticación** con Flask-JWT-Extended
--   ✅ **Control de acceso** basado en roles (Admin, Moderator, User)
--   ✅ **CRUDs completos** (Usuarios, Posts, Comentarios, Categorías)
--   ✅ **Eliminado lógico** (desactivación de usuarios)
--   ✅ **Endpoint de estadísticas** (`/api/stats`)
--   ✅ **Protección de rutas** según rol (Decoradores personalizados)
--   ✅ **Código modular**, escalable y mantenible
-
----
-
-## Estructura del proyecto
-¡Claro! Ese README.md de las imágenes es excelente.
-
-Basándome en todo lo que hemos construido en tu proyecto (efiPytohn2), he creado esta versión del README.md que replica ese estilo profesional, pero adaptado 100% a tu código, tus nombres de archivo y tus endpoints.
-
-Simplemente copia todo el bloque de código de abajo y pégalo en el archivo README.md de tu repositorio de GitHub.
-Markdown
-
-# API REST con Flask - EFI Python (efiPython2)
-
-Repositorio para la **Evaluación Final Integradora (EFI)** de la materia **Programación Python I**, creado por Lucas Aruza y Mateo Gonzalez.
-
----
-
-## Resumen de funcionalidades
-
 -    ✅ **Arquitectura limpia** (Services + Repositories)
 -    ✅ **Autenticación** con Flask-JWT-Extended
 -    ✅ **Control de acceso** basado en roles (Admin, Moderator, User)
