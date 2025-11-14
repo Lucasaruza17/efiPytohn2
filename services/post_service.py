@@ -20,4 +20,3 @@ class PostService:
     db.session.commit()
     return nuevo_post
 
-

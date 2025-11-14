@@ -25,15 +25,13 @@ class PostAPI(MethodView):
     def post(self, post_id=None):
         data = request.get_json()
         current_user_id = get_jwt_identity()
-        
-        # --- LÍNEA AÑADIDA ---
-        subject = data.get("subject")
-        # ---
-        
+
+    # subject = data.get("subject") # <--- BORRADO
+
         titulo = data.get("titulo")
         contenido = data.get("contenido")
-        
-        # --- CÓDIGO MEJORADO PARA CATEGORIAS ---
+
+    # --- CÓDIGO MEJORADO PARA CATEGORIAS ---
         categorias_input = data.get("categorias")
         if isinstance(categorias_input, str):
             categorias = [categorias_input]
@@ -41,11 +39,11 @@ class PostAPI(MethodView):
             categorias = categorias_input
         else:
             categorias = []
-        # ---
-        
-        # --- LÍNEA MODIFICADA (Añadimos 'subject' al principio) ---
-        nuevo_post = PostService.crear_post(subject, titulo, contenido, current_user_id, categorias)
-        
+    # ---
+
+    # --- LÍNEA MODIFICADA (Llamamos con 4 argumentos) ---
+        nuevo_post = PostService.crear_post(titulo, contenido, current_user_id, categorias)
+
         return jsonify(post_schema.dump(nuevo_post)), 201
 
     @jwt_required()
