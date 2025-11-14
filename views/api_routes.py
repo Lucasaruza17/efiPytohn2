@@ -13,7 +13,6 @@ def register_api_routes(app):
     @app.route("/api/register", methods=["POST"])
     def api_register():
         data = request.get_json(force=True)
-        print(f"Datos Recibidos en /api/register: {data}")
         username = data.get("username")
         email = data.get("email")
         password = data.get("password")
@@ -69,9 +68,7 @@ def register_api_routes(app):
         return jsonify(stats), 200
 
     #
-    # --- LA FUNCIÓN 'create_post' CONFLICTIVA FUE ELIMINADA ---
-    #
-    # Ahora Flask usará correctamente las reglas de PostAPI de abajo
+    # --- LA FUNCIÓN 'create_post' CONFLICTIVA HA SIDO BORRADA ---
     #
 
     #esto aca trae todo lo .add_url_rule aquí, usando app
@@ -87,7 +84,6 @@ def register_api_routes(app):
     # Categoria
     categoria_view = CategoriaAPI.as_view("categorias_api")
     app.add_url_rule("/api/categories", defaults={"categoria_id": None}, view_func=categoria_view, methods=["GET","POST"])
-    # (Tu 'DELETE' ya estaba aquí, lo cual es perfecto)
     app.add_url_rule("/api/categories/<int:categoria_id>", view_func=categoria_view, methods=["GET","PUT","DELETE"])
 
     # Usuarios/Admin

@@ -4,10 +4,13 @@ from extensions import db, migrate, jwt
 from datetime import timedelta
 #Importama solo las rutas API
 from views.api_routes import register_api_routes
+from flask_cors import CORS
 
 
 #nnicia Flask
 app = Flask(__name__)
+# Configura CORS para permitir peticiones desde tu app de React
+CORS(app, resources={r"/api/*": {"origins": "http://localhost:5173"}}, supports_credentials=True)
 app.secret_key = "clavesecretaxd"
 
 # Configuración db

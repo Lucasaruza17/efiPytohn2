@@ -52,6 +52,7 @@ class Post(db.Model):
     __tablename__ = "post"
 
     id = db.Column(db.Integer, primary_key=True)
+    subject = db.Column(db.String(100), nullable=False)
     titulo = db.Column(db.String(150), nullable=False)
     contenido = db.Column(db.Text, nullable=False)
     fecha_creacion = db.Column(db.DateTime, default=db.func.now())
@@ -90,3 +91,4 @@ class Categoria(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(100), nullable=False, unique=True)
+    
