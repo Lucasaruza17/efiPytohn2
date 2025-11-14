@@ -28,7 +28,13 @@ class PostAPI(MethodView):
         
         titulo = data.get("titulo")
         contenido = data.get("contenido")
-        categorias = data.get("categorias", [])
+        categorias_input = data.get("categorias")
+        if isinstance(categorias_input, str):
+            categorias = [categorias_input]
+        elif isinstance(categorias_input, list):
+            categorias = categorias_input
+        else:
+            categorias = []
         
         #se usa el id del token
         nuevo_post = PostService.crear_post(titulo, contenido, current_user_id, categorias)

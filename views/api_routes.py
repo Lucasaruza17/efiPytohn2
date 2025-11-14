@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from flask_jwt_extended import create_access_token, get_jwt
+from flask_jwt_extended import create_access_token, get_jwt, jwt_required
 from repositories import UserRepository, PostRepository, ComentarioRepository
 from services import UserService
 from . import PostAPI, ComentarioAPI, CategoriaAPI, UserAPI
@@ -12,14 +12,18 @@ def register_api_routes(app):
     #mueve todas las rutas API
     @app.route("/api/register", methods=["POST"])
     def api_register():
-        data = request.get_json()
+        data = request.get_json(force=True)
+        print(f"Datos Recibidos en /api/register: {data}")
         username = data.get("username")
         email = data.get("email")
         password = data.get("password")
 
+        if not username or not email or not password:
+             return jsonify({"msg": "Faltan datos obligatorios (username, email, o password)"}), 400
+
         user_repo = UserRepository()
-        if user_repo.get_by_username_or_email(username, email):
-            return jsonify({"msg":"Usuario o email ya existe"}), 400
+        if user_repo.get_by_email(email): 
+             return jsonify({"msg":"Email ya existe"}), 400
 
         nuevo_usuario = UserService.crear_usuario(username, email, password)
         return jsonify({"message":"Usuario creado","user_id":nuevo_usuario.id}), 201
@@ -64,6 +68,11 @@ def register_api_routes(app):
             
         return jsonify(stats), 200
 
+    #
+    # --- LA FUNCIÓN 'create_post' CONFLICTIVA FUE ELIMINADA ---
+    #
+    # Ahora Flask usará correctamente las reglas de PostAPI de abajo
+    #
 
     #esto aca trae todo lo .add_url_rule aquí, usando app
     post_view = PostAPI.as_view("posts_api")
